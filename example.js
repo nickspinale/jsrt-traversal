@@ -1,4 +1,4 @@
-// Open the target web page. In this case, that is a google sheet containing a
+// Open the target web page. In this case, that is a Google Sheet containing a
 // bus schedule with google maps links. This particular sheet is protected, so
 // editing and copying are prohibited. Furthermore, the sheet is rendered on a
 // canvas, so there is no easy way to get the data from it.  Our goal is to
