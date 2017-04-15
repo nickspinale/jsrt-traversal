@@ -19,10 +19,10 @@ traverse(window, function(node) {
                 console.log(err);
                 console.log(path);
             }
-            return true;
+            return 'continue';
         }
     }
-    return true;
+    return 'continue';
 });
 
 // Looks like we could try and find the spreadsheet itself.
@@ -35,10 +35,10 @@ traverse(window, function(node) {
                 console.log(err);
                 console.log(path);
             }
-            return true;
+            return 'continue';
         }
     }
-    return true;
+    return 'continue';
 });
 
 // Uh oh. That's not gonna work. Let's look for the links we're interested in.
@@ -46,7 +46,7 @@ traverse(window, function(node) {
     if (typeof node == 'string' && node.includes('www.google.com/maps/place')) {
         console.log(node);
     }
-    return true;
+    return 'continue';
 });
 
 // Hyperlinked text is formatted in a weird way in certain strings, giving us
@@ -64,7 +64,7 @@ traverse(window, function(node) {
             stops.push([match[1], match[2], match[3]]);
         }
     }
-    return true;
+    return 'continue';
 });
 
 // We're extracting enough data that manually copying from the console to the

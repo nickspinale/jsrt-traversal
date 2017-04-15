@@ -26,23 +26,25 @@ function traverse(root, f) {
         if (typeof cont == 'function') {
             cont = cont(makePath(node));
         }
-        if (!cont) {
-            return;
-        }
-        if (typeof node == 'object') {
-            for (var property in node) {
-                try {
-                    if (node.hasOwnProperty(property)) {
-                        if (!visited.has(node[property])) {
-                            visited.set(node[property], node);
-                            props.set(node[property], property);
-                            q.enqueue(node[property]);
+        switch (cont) {
+            case 'stop':
+                return;
+            case 'continue':
+                if (typeof node == 'object' && typeof node.hasOwnProperty == 'function') {
+                    for (var property in node) {
+                        if (node.hasOwnProperty(property)) {
+                            if (!visited.has(node[property])) {
+                                visited.set(node[property], node);
+                                props.set(node[property], property);
+                                q.enqueue(node[property]);
+                            }
                         }
                     }
-                } catch(err) {
-                    // console.log(err);
                 }
-            }
+            case 'skip':
+                break;
+            default:
+                throw '[TRAVERSAL ERROR] continuation returned: ' + cont
         }
     }
 }
