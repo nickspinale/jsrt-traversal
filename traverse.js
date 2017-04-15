@@ -30,16 +30,20 @@ function traverse(root, f) {
             case 'stop':
                 return;
             case 'continue':
-                if (typeof node == 'object' && typeof node.hasOwnProperty == 'function') {
-                    for (var property in node) {
-                        if (node.hasOwnProperty(property)) {
-                            if (!visited.has(node[property])) {
-                                visited.set(node[property], node);
-                                props.set(node[property], property);
-                                q.enqueue(node[property]);
+                if (typeof node == 'object' && node != null) {
+                        for (var property in node) {
+                            try {
+                                if (node.hasOwnProperty(property)) {
+                                    if (!visited.has(node[property])) {
+                                        visited.set(node[property], node);
+                                        props.set(node[property], property);
+                                        q.enqueue(node[property]);
+                                    }
+                                }
+                            } catch(err) {
+                                // console.log(err)
                             }
                         }
-                    }
                 }
             case 'skip':
                 break;
@@ -47,6 +51,17 @@ function traverse(root, f) {
                 throw '[TRAVERSAL ERROR] continuation returned: ' + cont
         }
     }
+}
+
+
+function traverse_(root, g) {
+    return traverse(root, function(node) {
+        try {
+            return g(node);
+        } catch(err) {
+            return 'continue';
+        }
+    });
 }
 
 
